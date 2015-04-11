@@ -24,7 +24,7 @@ public class DBConnection {
     private DBConnection() { 
         try {
             // Load driver
-            Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
+            Class.forName("oracle.jdbc.OracleDriver").newInstance();
 
             // Get a Connection to the database
             connection = DriverManager.getConnection("jdbc:oracle:thin:@dilbert.humber.ca:1521:grok", "n00770693", "oracle");
