@@ -6,9 +6,14 @@ package humberhotel;
  * and open the template in the editor.
  */
 
+import humberhotel.db.DBConnection;
 import humberhotel.beans.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,24 +42,21 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             String status = "";
             String email = "";
-            String password = "";
+            
             if (session.getAttribute("user") != null) {
                 response.sendRedirect("account.jsp");
                 return;
             }
             if (request.getParameter("submit") != null) {
                 email = request.getParameter("email");
-                password = request.getParameter("password");
-                if (email.equalsIgnoreCase("tylerserio@hotmail.com") && password.equalsIgnoreCase("hockey")) {
-                    String name = "Tyler Serio";
-                    int authority = 1;
-                    User user = new User(email, name, authority);
-                    session.setAttribute("user", user);
-                    response.sendRedirect("index.jsp");
-                    return;
+                String password = request.getParameter("password");
+                if (User.login(email, password) != null) {
+                    session.setAttribute("user", User.login(email, password));
+                    response.sendRedirect("account.jsp");
                 } else {
-                    status = "Email/Password is Incorrect";
+                    status = "Username/password Combo Invalid";
                 }
+                
             }
                 request.getRequestDispatcher("/header.jsp").include(request, response);
                 out.println("<div id='loginwrapper'>");

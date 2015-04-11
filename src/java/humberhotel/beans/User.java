@@ -1,5 +1,12 @@
 package humberhotel.beans;
 
+import humberhotel.db.DBConnection;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.servlet.http.HttpSession;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -49,6 +56,25 @@ public class User {
         this.authority = authority;
     }
     
-    
-    
+    public static User login(String email, String password) {
+        String passwordDB = "";
+        Connection dbc = DBConnection.getConnection();
+        ResultSet rs = null;
+        User user = null;
+        try {
+            Statement stmt = dbc.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM N00770693.HOTELUSERS WHERE email = '" + email + "'");
+            while (rs.next()) {
+                passwordDB = rs.getString("password");
+                if (password.equalsIgnoreCase(passwordDB)) {
+                    String name = rs.getString("name");
+                    int authority = rs.getInt("admin");
+                    user = new User(email, name, authority);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }        
 }
