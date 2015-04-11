@@ -15,7 +15,7 @@ import java.sql.DriverManager;
 public class DBConnection {
     private static volatile Connection dbc;
     
-    public static Connection connectDB() {
+    public static Connection getConnection() {
         if (dbc == null) {
             synchronized (DBConnection.class) {
                 if (dbc == null) {

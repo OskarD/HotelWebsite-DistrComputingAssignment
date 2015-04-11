@@ -16,6 +16,10 @@
         <servlet-name>AccountProfileServlet</servlet-name>
         <servlet-class>humberhotel.AccountProfileServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewUsersServlet</servlet-name>
+        <servlet-class>humberhotel.ViewUsersServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -35,6 +39,11 @@
         <servlet-name>AccountProfileServlet</servlet-name>
         <url-pattern>/AccountProfileServlet</url-pattern>
         <url-pattern>/accountprofile.jsp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewUsersServlet</servlet-name>
+        <url-pattern>/ViewUsersServlet</url-pattern>
+        <url-pattern>/viewusers.jsp</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
