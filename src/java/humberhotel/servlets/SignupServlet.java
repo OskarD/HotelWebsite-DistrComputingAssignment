@@ -1,25 +1,22 @@
-package humberhotel;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package humberhotel.servlets;
 
-import humberhotel.beans.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Serio
  */
-public class LoginServlet extends HttpServlet {
+public class SignupServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,39 +31,43 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            String status = "";
-            String email = "";
-            String password = "";
-            if (session.getAttribute("user") != null) {
-                response.sendRedirect("account.jsp");
+        String status = "";
+        String name = "";
+        String email = "";
+        String pass1 = "";
+        String pass2 = "";
+        if (request.getParameter("submit") != null) {
+            name = request.getParameter("name");
+            email = request.getParameter("email");
+            pass1 = request.getParameter("pass1");
+            pass2 = request.getParameter("pass2");
+            boolean confirm = true;
+            if (name.equalsIgnoreCase("") || email.equalsIgnoreCase("") || pass1.equalsIgnoreCase("") || pass2.equalsIgnoreCase("")) {
+                status = "You have missed a field";
+                confirm = false;
+            } else if (!pass1.equals(pass2)) {
+                status = "Passwords Do Not Match.";
+                confirm = false;
+            }
+            if (confirm) {
+                response.sendRedirect("login.jsp");
                 return;
             }
-            if (request.getParameter("submit") != null) {
-                email = request.getParameter("email");
-                password = request.getParameter("password");
-                if (email.equalsIgnoreCase("tylerserio@hotmail.com") && password.equalsIgnoreCase("hockey")) {
-                    String name = "Tyler Serio";
-                    int authority = 1;
-                    User user = new User(email, name, authority);
-                    session.setAttribute("user", user);
-                    response.sendRedirect("index.jsp");
-                    return;
-                } else {
-                    status = "Email/Password is Incorrect";
-                }
-            }
-                request.getRequestDispatcher("/header.jsp").include(request, response);
-                out.println("<div id='loginwrapper'>");
-                out.println("<h2>Login Your Account</h2>");
-                if (!status.equalsIgnoreCase("")) out.println("<p class='errorMessage'>" + status + "</p>");
-                out.println("<form method='post' name='loginform'>");
-                out.println("<table>");
-                out.println("<tr><td>Email:</td> <td><input type='text' size='20' name='email' value='" + email + "' autofocus /></td></tr>");
-                out.println("<tr><td>Password:</td> <td><input type='password' size='20' name='password' /></td></tr>");
-                out.println("<tr><td colspan='2'><p><input type='submit' name='submit' value='Login' /></p></td></tr>");
-                out.println("</table></form></div>");
-                request.getRequestDispatcher("/footer.jsp").include(request, response);
+            
+        }
+        request.getRequestDispatcher("/header.jsp").include(request, response);
+        out.println("<div id='signupwrapper'>");
+        out.println("<h2>Create An Account</h2>");
+        if (!status.equalsIgnoreCase("")) out.println("<p class='errorMessage'>" + status + "</p>");
+        out.println("<form method='post' name='signupform'><table>");
+        out.println("<tr><td>Name: </td><td><input type='text' size='20' name='name' value='" + name + "'  /></td></tr>");
+        out.println("<tr><td>Email: </td><td><input type='text' size='20' name='email' value='" + email + "'  /></td></tr>");
+        out.println("<tr><td>Password: </td><td><input type='password' size='20' name='pass1' /></td></tr>");
+        out.println("<tr><td>Re-enter Password: </td><td><input type='password' size='20' name='pass2' /></td></tr>");
+        out.println("<tr><td colspan='2'><p><input type='submit' name='submit' value='SIGN UP TODAY' /></p></td></tr>");
+        out.println("</table></form></div>");
+        request.getRequestDispatcher("/footer.jsp").include(request, response);
+        
         }
     }
 

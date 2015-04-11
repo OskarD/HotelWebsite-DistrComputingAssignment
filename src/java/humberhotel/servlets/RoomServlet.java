@@ -3,15 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package humberhotel;
+package humberhotel.servlets;
 
-import humberhotel.db.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,9 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Serio
+ * @author Oskar
  */
-public class ViewUsersServlet extends HttpServlet {
+public class RoomServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,20 +31,16 @@ public class ViewUsersServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            Connection dbc = DBConnection.getConnection();
-            request.getRequestDispatcher("/header.jsp").include(request, response);
-            out.println("<div id='viewuserscontainer'><h2>Users</h2><ul>");
-            try {
-                Statement stmt = dbc.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT * FROM N00770693.HOTELUSERS");
-                while (rs.next()) {
-                    out.println("<p><b>Username: </b>" + rs.getString("email") + "</p>");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            out.println("</ul></div>");
-            request.getRequestDispatcher("/footer.jsp").include(request, response);           
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet RoomServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet RoomServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 

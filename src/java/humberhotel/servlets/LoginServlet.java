@@ -1,9 +1,10 @@
+package humberhotel.servlets;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package humberhotel;
 
 import humberhotel.beans.User;
 import java.io.IOException;
@@ -18,7 +19,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Serio
  */
-public class AccountProfileServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,25 +36,37 @@ public class AccountProfileServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
             String status = "";
-            if (session.getAttribute("user") == null) {
-                response.sendRedirect("login.jsp");
+            String email = "";
+            String password = "";
+            if (session.getAttribute("user") != null) {
+                response.sendRedirect("account.jsp");
                 return;
             }
-            User user = (User)session.getAttribute("user");
-            
-            request.getRequestDispatcher("/header.jsp").include(request, response);            
-            out.println("<div id='profilewrapper'><form method='post' name='profileform'>");
-        out.println("<h2>Update Your Profile</h2>");
-        if (!status.equalsIgnoreCase("")) out.println("<p class='errorMessage'>" + status + "</p>");
-        out.println("<form method='post' name='signupform'><table>");
-        out.println("<tr><td>Name: </td><td><input type='text' size='20' name='name' value='" + user.getName() + "'  /></td></tr>");
-        out.println("<tr><td>Email: </td><td><input type='text' size='20' name='email' value='" + user.getEmail() + "'  /></td></tr>");
-        out.println("<tr><td>New Password: </td><td><input type='password' size='20' name='pass1' /></td></tr>");
-        out.println("<tr><td>Re-enter New Password: </td><td><input type='password' size='20' name='pass2' /></td></tr>");
-        out.println("<tr><td colspan='2'><p><input type='submit' name='submit' value='UPDATE PROFILE' /></p></td></tr>");
-
-            out.println("</table></form></div>");
-            request.getRequestDispatcher("/footer.jsp").include(request, response);
+            if (request.getParameter("submit") != null) {
+                email = request.getParameter("email");
+                password = request.getParameter("password");
+                if (email.equalsIgnoreCase("tylerserio@hotmail.com") && password.equalsIgnoreCase("hockey")) {
+                    String name = "Tyler Serio";
+                    int authority = 1;
+                    User user = new User(email, name, authority);
+                    session.setAttribute("user", user);
+                    response.sendRedirect("index.jsp");
+                    return;
+                } else {
+                    status = "Email/Password is Incorrect";
+                }
+            }
+                request.getRequestDispatcher("/header.jsp").include(request, response);
+                out.println("<div id='loginwrapper'>");
+                out.println("<h2>Login Your Account</h2>");
+                if (!status.equalsIgnoreCase("")) out.println("<p class='errorMessage'>" + status + "</p>");
+                out.println("<form method='post' name='loginform'>");
+                out.println("<table>");
+                out.println("<tr><td>Email:</td> <td><input type='text' size='20' name='email' value='" + email + "' autofocus /></td></tr>");
+                out.println("<tr><td>Password:</td> <td><input type='password' size='20' name='password' /></td></tr>");
+                out.println("<tr><td colspan='2'><p><input type='submit' name='submit' value='Login' /></p></td></tr>");
+                out.println("</table></form></div>");
+                request.getRequestDispatcher("/footer.jsp").include(request, response);
         }
     }
 

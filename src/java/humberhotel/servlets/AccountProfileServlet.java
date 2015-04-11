@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package humberhotel;
+package humberhotel.servlets;
 
 import humberhotel.beans.User;
 import java.io.IOException;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Serio
  */
-public class AccountServlet extends HttpServlet {
+public class AccountProfileServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,32 +34,26 @@ public class AccountServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
+            String status = "";
             if (session.getAttribute("user") == null) {
                 response.sendRedirect("login.jsp");
                 return;
             }
             User user = (User)session.getAttribute("user");
-            request.getRequestDispatcher("/header.jsp").include(request, response);
-            out.println("<div id='accountwrapper'>");
-            out.println("<h2>Your Account</h2>");
-            out.println("<h3>Information</h3>");
-            out.println("<ul>");
-            out.println("<li><a href='bookedrooms.jsp'>View Booked Rooms</a></li>");
-            out.println("<li><a href='accountprofile.jsp'>View Profile</a></li>");
-            out.println("</ul>");
             
-            if (user.getAuthority() == 1) {
-                out.println("<h3>Admin Menu</h3>");
-                out.println("<ul>");
-                out.println("<li><a href='roomsreport.jsp'>View All Booked Rooms</a></li>");
-                out.println("<li><a href='addrooms.jsp'>Add Rooms</a></li>");
-                out.println("<li><a href='editrooms.jsp'>Edit Rooms</a></li>");
-                out.println("<li><a href='viewusers.jsp'>View Users</a></li>");
-                out.println("</ul>");
-            }
-            out.println("</div>");
-            request.getRequestDispatcher("/footer.jsp").include(request, response);
+            request.getRequestDispatcher("/header.jsp").include(request, response);            
+            out.println("<div id='profilewrapper'><form method='post' name='profileform'>");
+        out.println("<h2>Update Your Profile</h2>");
+        if (!status.equalsIgnoreCase("")) out.println("<p class='errorMessage'>" + status + "</p>");
+        out.println("<form method='post' name='signupform'><table>");
+        out.println("<tr><td>Name: </td><td><input type='text' size='20' name='name' value='" + user.getName() + "'  /></td></tr>");
+        out.println("<tr><td>Email: </td><td><input type='text' size='20' name='email' value='" + user.getEmail() + "'  /></td></tr>");
+        out.println("<tr><td>New Password: </td><td><input type='password' size='20' name='pass1' /></td></tr>");
+        out.println("<tr><td>Re-enter New Password: </td><td><input type='password' size='20' name='pass2' /></td></tr>");
+        out.println("<tr><td colspan='2'><p><input type='submit' name='submit' value='UPDATE PROFILE' /></p></td></tr>");
 
+            out.println("</table></form></div>");
+            request.getRequestDispatcher("/footer.jsp").include(request, response);
         }
     }
 
