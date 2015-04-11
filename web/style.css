@@ -1,0 +1,100 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {margin:0; font-family:Arial, Helvetica, sans-serif;}
+
+#top {clear:both; overflow:hidden;}
+#logo {float:left; width:20%;}
+#navi {float:left; width:80%; background:#000033; list-style:none; margin:50px 0 0 0; padding:0;}
+#navi li {float:right; padding:10px 20px;}
+#navi li:hover {background:#deb406;}
+#navi a {text-decoration:none; color:#FFF;}
+
+#login {overflow:hidden; padding-right:5px;}
+#login p {margin:0; text-align:right;}
+#login a {text-decoration:none; color:#000; font-weight:bold;}
+#login a:hover {color:#deb406;}
+
+#footer {margin:0 auto; padding:10px 0; width:100%; background:#000022; color:#FFF; font-size:14px;}
+#footer h2 {margin:0;}
+#footer a {text-decoration:none; color:#FFF;}
+#footer a:hover {color:#deb406;}
+#footer p:last-child {text-align:center;}
+
+.errorMessage {text-align: center; color: #de0000; font-style: italic; font-weight: bold;}
+
+
+/* index page */
+#main {width:100%; height:400px; background:url(images/hotelpic1.jpg) no-repeat center;}
+#main2 {width:60%; margin:0 auto;}
+#main2 h2 {margin:5px auto; text-align:center; padding:5px 20px; background:#000033; border-radius:4px;}
+#main2 h2:hover {background:#deb406;}
+#main2 a {text-decoration:none; color:#FFF;}
+
+
+/* contact */
+#contactwrapper {overflow:hidden; background: #FFF; margin:0 auto; width: 60%;}
+#contactwrapper h1 {margin:5px 0 0 0;}
+#contactwrapper hr {margin: 0 0 15px 0;}
+#contactleft {width:50%; margin-right:10%; float:left;}
+#contactleft table {font-size: 20px; margin:30px 0 0 0;}
+#contactleft form input {font-size: 20px;}
+#contactleft form textarea {font-size: 20px; font-family: Arial, Helvetica, sans-serif;}
+#contactleft form input[type=submit] {padding:5px 30px; margin-top: 25px;}
+
+#contactright {width:40%; float:right;}
+#contactright h2 {margin:30px 0 0 0;}
+
+
+/* photos */
+#photoswrapper {width:90%; margin: 0 auto; overflow: hidden;}
+#photoswrapper ul {list-style: none; margin:0; padding:0;}
+#photoswrapper ul li {float: left; margin: 0; padding:20px;}
+
+
+/* login page */
+#loginwrapper {width:30%; margin: 10px auto; overflow: hidden; border: 1px solid #000033; border-radius: 4px;}
+#loginwrapper h2 {background: #000033; color: #deb406; margin:0 0 5px 0; padding: 5px 0; border-bottom: 1px solid #000033; text-align: center;}
+#loginwrapper table {margin: 0 auto; font-size: 20px;}
+#loginwrapper input {font-size: 20px; margin-bottom: 10px;}
+#loginwrapper input[type=submit] {padding: 5px 100px;}
+#loginwrapper p:last-child {text-align: center;}
+
+
+/* rooms page */
+#roomswrapper {width:40%; margin: 10px auto; overflow: hidden; border: 1px solid #000033; border-radius: 4px;}
+#roomswrapper h2 {background: #000033; color: #deb406; margin:0 0 5px 0; padding: 5px 0; border-bottom: 1px solid #000033; text-align: center;}
+#roomswrapper a {text-decoration: none; font-style: italic; color: #000033;}
+#roomswrapper a:hover {text-decoration: underline;}
+#roomswrapper table {margin: 0 auto; font-size: 20px;}
+#roomswrapper input {font-size: 20px; margin-bottom: 10px;}
+#roomswrapper input[type=submit] {padding: 5px 100px;}
+#roomswrapper select {font-size:20px;}
+#roomswrapper p {text-align: center;}
+
+
+/* signup page */
+#signupwrapper {width:40%; margin: 10px auto; overflow: hidden; border: 1px solid #000033; border-radius: 4px;}
+#signupwrapper h2 {background: #000033; color: #deb406; margin:0 0 5px 0; padding: 5px 0; border-bottom: 1px solid #000033; text-align: center;}
+#signupwrapper table {margin: 0 auto; font-size: 20px;}
+#signupwrapper input {font-size: 20px; margin-bottom: 10px;}
+#signupwrapper input[type=submit] {padding: 5px 100px;}
+#signupwrapper p:last-child {text-align: center;}
+
+
+/* account page */
+#accountwrapper {width:40%; margin: 10px auto; overflow:  hidden; border: 1px solid #000033; border-radius: 4px;}
+#accountwrapper h2 {background: #000033; color: #deb406; margin:0 0 5px 0; padding: 5px 0; border-bottom: 1px solid #000033; text-align: center;}
+#accountwrapper h3 {margin: 5px;}
+#accountwrapper ul {list-style: square; margin: 5px 5px 20px 5px;}
+#accountwrapper a {text-decoration: none; color: #000088; font-weight: bold;}
+#accountwrapper a:hover {color: #deb406; text-decoration: underline;}
+
+
+/* profile page */
+#profilewrapper {width:40%; margin: 10px auto; overflow: hidden; border: 1px solid #000033; border-radius: 4px;}
+#profilewrapper h2 {background: #000033; color: #deb406; margin:0 0 5px 0; padding: 5px 0; border-bottom: 1px solid #000033; text-align: center;}
+#profilewrapper table {margin: 0 auto; font-size: 20px;}
+#profilewrapper input {font-size: 20px; margin-bottom: 10px;}
+#profilewrapper input[type=submit] {padding: 5px 100px;}
+#profilewrapper p:last-child {text-align: center;}

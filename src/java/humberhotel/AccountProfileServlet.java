@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package web;
+package humberhotel;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,12 +11,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Oskar
+ * @author Serio
  */
-public class ReportServlet extends HttpServlet {
+public class AccountProfileServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,16 +32,27 @@ public class ReportServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ReportServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ReportServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            HttpSession session = request.getSession();
+            String status = "";
+            if (session.getAttribute("user") == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
+            User user = (User)session.getAttribute("user");
+            
+            request.getRequestDispatcher("/header.jsp").include(request, response);            
+            out.println("<div id='profilewrapper'><form method='post' name='profileform'>");
+        out.println("<h2>Update Your Profile</h2>");
+        if (!status.equalsIgnoreCase("")) out.println("<p class='errorMessage'>" + status + "</p>");
+        out.println("<form method='post' name='signupform'><table>");
+        out.println("<tr><td>Name: </td><td><input type='text' size='20' name='name' value='" + user.getName() + "'  /></td></tr>");
+        out.println("<tr><td>Email: </td><td><input type='text' size='20' name='email' value='" + user.getEmail() + "'  /></td></tr>");
+        out.println("<tr><td>New Password: </td><td><input type='password' size='20' name='pass1' /></td></tr>");
+        out.println("<tr><td>Re-enter New Password: </td><td><input type='password' size='20' name='pass2' /></td></tr>");
+        out.println("<tr><td colspan='2'><p><input type='submit' name='submit' value='UPDATE PROFILE' /></p></td></tr>");
+
+            out.println("</table></form></div>");
+            request.getRequestDispatcher("/footer.jsp").include(request, response);
         }
     }
 
