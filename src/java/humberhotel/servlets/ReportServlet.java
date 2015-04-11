@@ -3,22 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package humberhotel;
+package humberhotel.servlets;
 
-import humberhotel.beans.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Serio
+ * @author Oskar
  */
-public class AccountServlet extends HttpServlet {
+public class ReportServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,33 +31,16 @@ public class AccountServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            if (session.getAttribute("user") == null) {
-                response.sendRedirect("login.jsp");
-                return;
-            }
-            User user = (User)session.getAttribute("user");
-            request.getRequestDispatcher("/header.jsp").include(request, response);
-            out.println("<div id='accountwrapper'>");
-            out.println("<h2>Your Account</h2>");
-            out.println("<h3>Information</h3>");
-            out.println("<ul>");
-            out.println("<li><a href='bookedrooms.jsp'>View Booked Rooms</a></li>");
-            out.println("<li><a href='accountprofile.jsp'>View Profile</a></li>");
-            out.println("</ul>");
-            
-            if (user.getAuthority() == 1) {
-                out.println("<h3>Admin Menu</h3>");
-                out.println("<ul>");
-                out.println("<li><a href='roomsreport.jsp'>View All Booked Rooms</a></li>");
-                out.println("<li><a href='addrooms.jsp'>Add Rooms</a></li>");
-                out.println("<li><a href='editrooms.jsp'>Edit Rooms</a></li>");
-                out.println("<li><a href='viewusers.jsp'>View Users</a></li>");
-                out.println("</ul>");
-            }
-            out.println("</div>");
-            request.getRequestDispatcher("/footer.jsp").include(request, response);
-
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet ReportServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet ReportServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 

@@ -1,14 +1,14 @@
-package humberhotel;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package humberhotel.servlets;
 
+import humberhotel.beans.User;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,8 +18,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Serio
  */
-@WebServlet(urlPatterns = {"/LogoutServlet", "/logout.jsp"})
-public class LogoutServlet extends HttpServlet {
+public class AccountServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,12 +32,34 @@ public class LogoutServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        if (session.getAttribute("user") != null) {
-            session.invalidate();
-            response.sendRedirect("login.jsp");
-        } else {
-            response.sendRedirect("login.jsp");
+        try (PrintWriter out = response.getWriter()) {
+            HttpSession session = request.getSession();
+            if (session.getAttribute("user") == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
+            User user = (User)session.getAttribute("user");
+            request.getRequestDispatcher("/header.jsp").include(request, response);
+            out.println("<div id='accountwrapper'>");
+            out.println("<h2>Your Account</h2>");
+            out.println("<h3>Information</h3>");
+            out.println("<ul>");
+            out.println("<li><a href='bookedrooms.jsp'>View Booked Rooms</a></li>");
+            out.println("<li><a href='accountprofile.jsp'>View Profile</a></li>");
+            out.println("</ul>");
+            
+            if (user.getAuthority() == 1) {
+                out.println("<h3>Admin Menu</h3>");
+                out.println("<ul>");
+                out.println("<li><a href='roomsreport.jsp'>View All Booked Rooms</a></li>");
+                out.println("<li><a href='addrooms.jsp'>Add Rooms</a></li>");
+                out.println("<li><a href='editrooms.jsp'>Edit Rooms</a></li>");
+                out.println("<li><a href='viewusers.jsp'>View Users</a></li>");
+                out.println("</ul>");
+            }
+            out.println("</div>");
+            request.getRequestDispatcher("/footer.jsp").include(request, response);
+
         }
     }
 
