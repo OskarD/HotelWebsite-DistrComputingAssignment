@@ -48,7 +48,7 @@ public class AccountServlet extends HttpServlet {
             out.println("<li><a href='accountprofile.jsp'>View Profile</a></li>");
             out.println("</ul>");
             
-            if (user.getAuthority()) {
+            if (user.getAuthority() == 1) {
                 out.println("<h3>Admin Menu</h3>");
                 out.println("<ul>");
                 out.println("<li><a href='roomsreport.jsp'>View All Booked Rooms</a></li>");

@@ -47,7 +47,7 @@ public class LoginServlet extends HttpServlet {
                 password = request.getParameter("password");
                 if (email.equalsIgnoreCase("tylerserio@hotmail.com") && password.equalsIgnoreCase("hockey")) {
                     String name = "Tyler Serio";
-                    boolean authority = true;
+                    int authority = 1;
                     User user = new User(email, name, authority);
                     session.setAttribute("user", user);
                     response.sendRedirect("index.jsp");
