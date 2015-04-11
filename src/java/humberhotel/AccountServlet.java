@@ -47,11 +47,13 @@ public class AccountServlet extends HttpServlet {
             out.println("<li><a href='accountprofile.jsp'>View Profile</a></li>");
             out.println("</ul>");
             
-            if (user.getAuthority().equalsIgnoreCase("Admin")) {
+            if (user.getAuthority()) {
                 out.println("<h3>Admin Menu</h3>");
                 out.println("<ul>");
                 out.println("<li><a href='roomsreport.jsp'>View All Booked Rooms</a></li>");
+                out.println("<li><a href='addrooms.jsp'>Add Rooms</a></li>");
                 out.println("<li><a href='editrooms.jsp'>Edit Rooms</a></li>");
+                out.println("<li><a href='viewusers.jsp'>View Users</a></li>");
                 out.println("</ul>");
             }
             out.println("</div>");

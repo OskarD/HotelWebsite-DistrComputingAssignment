@@ -13,13 +13,13 @@ package humberhotel;
 public class User {
     private String email;
     private String name;
-    private String authority;
+    private boolean authority;
     
     public User() {
         
     }
     
-    public User(String email, String name, String authority) {
+    public User(String email, String name, boolean authority) {
         this.email = email;
         this.name = name;
         this.authority = authority;
@@ -41,11 +41,11 @@ public class User {
         this.name = name;
     }
 
-    public String getAuthority() {
+    public boolean getAuthority() {
         return authority;
     }
 
-    public void setAuthority(String authority) {
+    public void setAuthority(boolean authority) {
         this.authority = authority;
     }
     
