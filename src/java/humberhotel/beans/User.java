@@ -1,4 +1,4 @@
-package humberhotel;
+package humberhotel.beans;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,13 +13,13 @@ package humberhotel;
 public class User {
     private String email;
     private String name;
-    private boolean authority;
+    private int authority;
     
     public User() {
         
     }
     
-    public User(String email, String name, boolean authority) {
+    public User(String email, String name, int authority) {
         this.email = email;
         this.name = name;
         this.authority = authority;
@@ -41,11 +41,11 @@ public class User {
         this.name = name;
     }
 
-    public boolean getAuthority() {
+    public int getAuthority() {
         return authority;
     }
 
-    public void setAuthority(boolean authority) {
+    public void setAuthority(int authority) {
         this.authority = authority;
     }
     

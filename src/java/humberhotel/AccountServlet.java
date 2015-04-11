@@ -5,6 +5,7 @@
  */
 package humberhotel;
 
+import humberhotel.beans.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
