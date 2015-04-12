@@ -48,6 +48,9 @@ public class MyBookingServlet extends HttpServlet {
             out.println("<div id='myBookings'>");
             out.println("<head>List of bookings</head>");
             try {
+                String value = request.getParameter("cancel");
+                    Booking.delete(value);
+                
                 Statement stmt = connection.createStatement();
                 HttpSession session = request.getSession();
                 User user = (User)session.getAttribute("user");
@@ -65,7 +68,7 @@ public class MyBookingServlet extends HttpServlet {
                     int number = rs.getInt("a.roomnumber");
                     Date date = rs.getDate("b.bdate");
                     out.println("<tr><td>" + number + "</td><td>" + date + "</td><td>"
-                            + "<form action='myBooking.jsp' method='post'" + "'><button type='submit' id='" + id + "'>Cancel</button></form>"
+                            + "<form action='myBooking.jsp' method='post'" + "'><button type='submit' name='cancel' value='" + id + "'>Cancel</button></form>"
                             + "</td></tr>");
                 } 
                 out.println("</table>");
