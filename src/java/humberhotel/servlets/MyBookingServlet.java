@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package humberhotel;
+package humberhotel.servlets;
 
+import humberhotel.beans.Booking;
+import humberhotel.beans.User;
 import humberhotel.db.DBConnection;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,13 +20,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Adik
  */
 @WebServlet(name = "myBooking", urlPatterns = {"/myBooking"})
-public class myBooking extends HttpServlet {
+public class MyBookingServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,6 +38,7 @@ public class myBooking extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+        
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -45,17 +49,23 @@ public class myBooking extends HttpServlet {
             out.println("<head>List of bookings</head>");
             try {
                 Statement stmt = connection.createStatement();
-                String query = "Select a.bookedby, a.roomnumber, b.bdate from n00770693.hotelbookings a join n00770693.hotelbookeddays b on a.id = b.bookingid";
+                HttpSession session = request.getSession();
+                User user = (User)session.getAttribute("user");
+                
+                String query = "Select hb.id, hb.roomnumber, hbd.bdate from hotelbookings hb "
+                        + "join hotelbookeddays hbd on hb.id = hbd.bookingid "
+                        + "join hotelusers hu on hb.bookedby = hu.email"
+                        + "where hu.name = '" + user.getName() + "'";
                 ResultSet rs = stmt.executeQuery(query);
-                out.println("<table><tr><td>Booked name</td><td>Room Number</td>"
+                out.println("<table><tr><td>Room Number</td>"
                         + "<td>Date booked</td><td>Cancelation</td></tr>");
+                
                 while (rs.next()) {
-                    String name = rs.getString("a.bookedby");
+                    int id = rs.getInt("a.id");
                     int number = rs.getInt("a.roomnumber");
                     Date date = rs.getDate("b.bdate");
-                    out.println("<tr><td>" + name + "</td><td>" + 
-                            number + "</td><td>" + date + "</td><td>"
-                            + "<button type='submit' id='cancel'>Cancel</button>"
+                    out.println("<tr><td>" + number + "</td><td>" + date + "</td><td>"
+                            + "<form action='myBooking.jsp' method='post'" + "'><button type='submit' id='" + id + "'>Cancel</button></form>"
                             + "</td></tr>");
                 } 
                 out.println("</table>");
