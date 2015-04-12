@@ -23,22 +23,24 @@ import java.util.logging.Logger;
 public class Booking {
     private static final String 
         QUERY_AVAILABILITY =
-            "SELECT DISTINCT " +
-            "  days.bdate" +
-            "FROM " +
-            "  HOTELBOOKEDDAYS days" +
+            "SELECT DISTINCT" +
+            "  days.bdate " +
+            "FROM" +
+            "  HOTELBOOKEDDAYS days " +
             "JOIN" +
-            "  HOTELBOOKINGS bookings" +
+            "  HOTELBOOKINGS bookings " +
             "ON" +
-            "  days.bookingid = bookings.id" +
+            "  days.bookingid = bookings.id " +
             "WHERE" +
-            "  bookings.roomnumber = ?" +
+            "  bookings.roomnumber = ? " +
             "AND" +
-            "  days.bdate >= ?" +
+            "  days.bdate >= ? " +
             "AND" +
-            "  days.bdate <= ?",
+            "  days.bdate <= ? ",
         QUERY_GETBOOKING =
-            "SELECT * FROM hotelbookings WHERE id = ?";
+            "SELECT * FROM hotelbookings WHERE id = ?",
+        QUERY_CREATE =
+            "INSERT INTO HOTELBOOKINGS (bookedby, roomnumber) VALUES (?, ?)";
     
     
     
@@ -94,35 +96,67 @@ public class Booking {
         this.days.add(day);
     }
     
-    public void create() throws HotelException {
-        if(!Booking.checkAvailability(this.roomNumber, null, null))
+    public void create() throws HotelException, SQLException {
+        if(!Booking.checkAvailability(this.roomNumber, days.get(0).getBDate(), days.get(days.size() - 1).getBDate()))
             throw new HotelException("The room is unavailable for this period", HotelException.BOOKING_ROOM_UNAVAILABLE);
         
+        if(getBookedBy() == null)
+            throw new HotelException("Booking does not have a user connected to it");
         
+        if(getRoomNumber() == 0)
+            throw new HotelException("Booking does not have a room number connected to it");
+        
+        if(days.isEmpty())
+            throw new HotelException("There are no days in this booking");
+        
+        String generatedColumns[] = { "ID" };
+        
+        try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(QUERY_CREATE, generatedColumns)) {
+            stmt.setString(1, getBookedBy());
+            stmt.setInt(2, getRoomNumber());
+            
+            stmt.executeUpdate();
+            
+            ResultSet rs = stmt.getGeneratedKeys();
+            if(rs.next() == false)
+                throw new HotelException("Could not get ID of inserted Booking");
+            
+            for(BookedDay day : getDays()) {
+                day.setBookingId(rs.getInt(1));
+                day.create();
+            }
+            
+            //DBConnection.getConnection().commit(); // TODO Check if necessary
+        } catch (SQLException ex) {
+            Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }
     }
     
     public static boolean checkAvailability(int roomNumber, Date startDate, Date endDate) throws SQLException {
-        ResultSet rs;
 
         try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(QUERY_AVAILABILITY)) {
             stmt.setInt(1, roomNumber);
             stmt.setDate(2, startDate);
             stmt.setDate(3, endDate);
-            rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
+            
+            if(rs.next() != false) // If there are any results, the room is taken
+                return false;
+            
+            return true;
+            
         } catch (SQLException ex) {
             Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
-        
-        return rs.next() != false; // Returns false if there are any bookings between the dates
     }
     
     public static Booking getBooking(int id) throws HotelException, SQLException {
-        ResultSet rs;
 
         try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(QUERY_GETBOOKING)) {
             stmt.setInt(1, id);
-            rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
             
             if(rs.next() == false)
                 throw new HotelException("This room does not exist", HotelException.BOOKING_ROOM_DOES_NOT_EXIST);
