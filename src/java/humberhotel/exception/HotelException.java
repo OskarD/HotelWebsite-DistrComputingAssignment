@@ -12,7 +12,8 @@ package humberhotel.exception;
 public class HotelException extends Exception {
     
     public static final int
-            BOOKING_ROOM_UNAVAILABLE    = 1;
+            BOOKING_ROOM_UNAVAILABLE    = 1,
+            BOOKING_ROOM_DOES_NOT_EXIST = 2;
     
     private int
             code;

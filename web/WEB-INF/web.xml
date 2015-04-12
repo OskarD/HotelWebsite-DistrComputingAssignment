@@ -2,23 +2,23 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>humberhotel.LoginServlet</servlet-class>
+        <servlet-class>humberhotel.servlets.LoginServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AccountServlet</servlet-name>
-        <servlet-class>humberhotel.AccountServlet</servlet-class>
+        <servlet-class>humberhotel.servlets.AccountServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SignupServlet</servlet-name>
-        <servlet-class>humberhotel.SignupServlet</servlet-class>
+        <servlet-class>humberhotel.servlets.SignupServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AccountProfileServlet</servlet-name>
-        <servlet-class>humberhotel.AccountProfileServlet</servlet-class>
+        <servlet-class>humberhotel.servlets.AccountProfileServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ViewUsersServlet</servlet-name>
-        <servlet-class>humberhotel.ViewUsersServlet</servlet-class>
+        <servlet-class>humberhotel.servlets.ViewUsersServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
