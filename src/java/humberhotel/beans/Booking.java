@@ -37,10 +37,12 @@ public class Booking {
             "  days.bdate >= ? " +
             "AND" +
             "  days.bdate <= ? ",
-        QUERY_GETBOOKING =
+        QUERY_GET_BOOKING =
             "SELECT * FROM hotelbookings WHERE id = ?",
         QUERY_CREATE =
-            "INSERT INTO HOTELBOOKINGS (bookedby, roomnumber) VALUES (?, ?)";
+            "INSERT INTO HOTELBOOKINGS (bookedby, roomnumber) VALUES (?, ?)",
+        QUERY_DELETE_BOOKING =
+            "DELETE FROM hotelbookings WHERE id = ?";
     
     
     
@@ -154,7 +156,7 @@ public class Booking {
     
     public static Booking getBooking(int id) throws HotelException, SQLException {
 
-        try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(QUERY_GETBOOKING)) {
+        try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(QUERY_GET_BOOKING)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             
@@ -162,6 +164,16 @@ public class Booking {
                 throw new HotelException("This room does not exist", HotelException.BOOKING_ROOM_DOES_NOT_EXIST);
         
             return rs.getObject("Booking", Booking.class);
+        } catch (SQLException ex) {
+            Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }
+    }
+    
+    public static void deleteBooking(int id) throws HotelException, SQLException {
+        try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(QUERY_DELETE_BOOKING)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
         } catch (SQLException ex) {
             Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
