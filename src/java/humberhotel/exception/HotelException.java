@@ -6,7 +6,7 @@
 package humberhotel.exception;
 
 /**
- *
+ * Use this type of exception to throw errors that the browser should give to the user
  * @author Oskar
  */
 public class HotelException extends Exception {
