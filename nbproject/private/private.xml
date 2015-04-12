@@ -3,12 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Serio/Documents/NetBeansProjects/TheHumber/src/java/humberhotel/AccountProfileServlet.java</file>
-            <file>file:/C:/Users/Serio/Documents/NetBeansProjects/TheHumber/web/style.css</file>
-            <file>file:/C:/Users/Serio/Documents/NetBeansProjects/TheHumber/web/footer.jsp</file>
-            <file>file:/C:/Users/Serio/Documents/NetBeansProjects/TheHumber/src/java/humberhotel/SignupServlet.java</file>
-            <file>file:/C:/Users/Serio/Documents/NetBeansProjects/TheHumber/src/java/humberhotel/AccountServlet.java</file>
-            <file>file:/C:/Users/Serio/Documents/NetBeansProjects/TheHumber/web/header.jsp</file>
+            <file>file:/C:/Users/Adik/Documents/NetBeansProjects/GitHub/src/java/humberhotel/beans/Booking.java</file>
+            <file>file:/C:/Users/Adik/Documents/NetBeansProjects/GitHub/src/java/humberhotel/servlets/MyBookingServlet.java</file>
+            <file>file:/C:/Users/Adik/Documents/NetBeansProjects/GitHub/src/java/humberhotel/beans/BookedDay.java</file>
+            <file>file:/C:/Users/Adik/Documents/NetBeansProjects/GitHub/src/java/humberhotel/servlets/LoginServlet.java</file>
         </group>
     </open-files>
 </project-private>
