@@ -5,8 +5,12 @@
  */
 package humberhotel.servlets;
 
+import humberhotel.db.DBConnection;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -50,6 +54,13 @@ public class SignupServlet extends HttpServlet {
                 confirm = false;
             }
             if (confirm) {
+                Connection connection = DBConnection.getConnection();
+                try {
+                    Statement stmt = connection.createStatement();
+                    stmt.executeUpdate("INSERT INTO N00770693.HOTELUSERS VALUES ('" + email + "', '" + name + "', '" + pass1 + "', 0)");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 response.sendRedirect("login.jsp");
                 return;
             }
