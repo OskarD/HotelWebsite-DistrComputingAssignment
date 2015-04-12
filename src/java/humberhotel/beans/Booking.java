@@ -37,11 +37,11 @@ public class Booking {
             "  days.bdate >= ? " +
             "AND" +
             "  days.bdate <= ? ",
-        QUERY_GET_BOOKING =
+        QUERY_GET =
             "SELECT * FROM hotelbookings WHERE id = ?",
         QUERY_CREATE =
             "INSERT INTO HOTELBOOKINGS (bookedby, roomnumber) VALUES (?, ?)",
-        QUERY_DELETE_BOOKING =
+        QUERY_DELETE =
             "DELETE FROM hotelbookings WHERE id = ?";
     
     
@@ -98,6 +98,25 @@ public class Booking {
         this.days.add(day);
     }
     
+    public static boolean checkAvailability(int roomNumber, Date startDate, Date endDate) throws SQLException {
+
+        try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(QUERY_AVAILABILITY)) {
+            stmt.setInt(1, roomNumber);
+            stmt.setDate(2, startDate);
+            stmt.setDate(3, endDate);
+            ResultSet rs = stmt.executeQuery();
+            
+            if(rs.next() != false) // If there are any results, the room is taken
+                return false;
+            
+            return true;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }
+    }
+    
     public void create() throws HotelException, SQLException {
         if(!Booking.checkAvailability(this.roomNumber, days.get(0).getBDate(), days.get(days.size() - 1).getBDate()))
             throw new HotelException("The room is unavailable for this period", HotelException.BOOKING_ROOM_UNAVAILABLE);
@@ -127,36 +146,15 @@ public class Booking {
                 day.setBookingId(rs.getInt(1));
                 day.create();
             }
-            
-            //DBConnection.getConnection().commit(); // TODO Check if necessary
         } catch (SQLException ex) {
             Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
     }
     
-    public static boolean checkAvailability(int roomNumber, Date startDate, Date endDate) throws SQLException {
+    public static Booking get(int id) throws HotelException, SQLException {
 
-        try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(QUERY_AVAILABILITY)) {
-            stmt.setInt(1, roomNumber);
-            stmt.setDate(2, startDate);
-            stmt.setDate(3, endDate);
-            ResultSet rs = stmt.executeQuery();
-            
-            if(rs.next() != false) // If there are any results, the room is taken
-                return false;
-            
-            return true;
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
-            throw ex;
-        }
-    }
-    
-    public static Booking getBooking(int id) throws HotelException, SQLException {
-
-        try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(QUERY_GET_BOOKING)) {
+        try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(QUERY_GET)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             
@@ -170,10 +168,10 @@ public class Booking {
         }
     }
     
-    public static void deleteBooking(int id) throws HotelException, SQLException {
-        try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(QUERY_DELETE_BOOKING)) {
+    public static void delete(int id) throws HotelException, SQLException {
+        try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(QUERY_DELETE)) {
             stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
+            stmt.executeQuery();
         } catch (SQLException ex) {
             Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
