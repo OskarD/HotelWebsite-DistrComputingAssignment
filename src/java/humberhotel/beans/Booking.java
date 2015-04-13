@@ -39,6 +39,8 @@ public class Booking {
             "  days.bdate <= ? ",
         QUERY_GET =
             "SELECT * FROM hotelbookings WHERE id = ?",
+        QUERY_GET_ALL =
+            "SELECT * FROM hotelbookings",
         QUERY_CREATE =
             "INSERT INTO HOTELBOOKINGS (bookedby, roomnumber) VALUES (?, ?)",
         QUERY_DELETE =
@@ -166,6 +168,29 @@ public class Booking {
             Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
+    }
+    
+    public static final ArrayList<Booking> getAll() throws SQLException {
+        ArrayList<Booking> bookings = new ArrayList<>();
+        
+        try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(QUERY_GET_ALL)) {
+            ResultSet rs = stmt.executeQuery();
+            
+            Booking booking;
+            
+            while(rs.next()) {
+                booking = new Booking();
+                booking.setId(rs.getInt(1));
+                booking.setBookedBy(rs.getString(2));
+                booking.setRoomNumber(rs.getInt(3));
+                bookings.add(booking);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }
+        
+        return bookings;
     }
     
     public static void delete(int id) throws HotelException, SQLException {

@@ -63,7 +63,7 @@ public class BookedDay {
             
             stmt.executeQuery();
         } catch (SQLException ex) {
-            Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BookedDay.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
     }

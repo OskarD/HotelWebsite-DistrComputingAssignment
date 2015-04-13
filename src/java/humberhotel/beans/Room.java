@@ -62,7 +62,7 @@ public class Room {
             
             stmt.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Room.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
     }
@@ -72,7 +72,7 @@ public class Room {
             stmt.setInt(1, roomNumber);
             stmt.executeQuery();
         } catch (SQLException ex) {
-            Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Room.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
     }
@@ -91,7 +91,7 @@ public class Room {
             room.setType(rs.getString(2));
 
         } catch (SQLException ex) {
-            Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Room.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
         
@@ -113,7 +113,7 @@ public class Room {
                 rooms.add(room);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Room.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
         
