@@ -76,7 +76,7 @@ public class MyBookingServlet extends HttpServlet {
                     int number = rs.getInt("a.roomnumber");
                     Date date = rs.getDate("b.bdate");
                     out.println("<tr><td>" + number + "</td><td>" + date + "</td><td>"
-                            + "<form action='myBooking.jsp' method='get'" + "'><button type='submit' name='cancel' value='" + id + "'>Cancel</button></form>"
+                            + "<form method='get'" + "'><button type='submit' name='cancel' value='" + id + "'>Cancel</button></form>"
                             + "</td></tr>");
                 } 
                 out.println("</table>");
