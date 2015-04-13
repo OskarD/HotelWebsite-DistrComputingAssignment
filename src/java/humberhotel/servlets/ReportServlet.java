@@ -36,10 +36,15 @@ public class ReportServlet extends HttpServlet {
             out.println("<div id='reportswrapper'>");
             out.println("<h2>Room Reports</h2>");
             out.println("<h3>Sort By:</h3>");
-            out.println("<p><a href='reports.jsp?report=newestdate'>Latest Bookings</a> - <a href='reports.jsp?report=numerical'>Numerical Order</a> - <a href='reports.jsp?report=price'>Price</a>");
+            out.println("<p><a href='reports.jsp?report=newestdate'>Latest Bookings</a> - <a href='reports.jsp?report=numerical'>Numerical Order</a> - <a href='reports.jsp?report=price'>Price</a></p>");
+            if (request.getParameter("report").equalsIgnoreCase("newestdate")) {
+                out.println("<p>Newest Dates</p>");
+            } else if (request.getParameter("report") == null || request.getParameter("report").equalsIgnoreCase("")) {
+
+            }
             out.println("</div>");
-            request.getRequestDispatcher("/footer.jsp").include(request, response);                        
-            
+            request.getRequestDispatcher("/footer.jsp").include(request, response);                            
+          
         }
     }
 
