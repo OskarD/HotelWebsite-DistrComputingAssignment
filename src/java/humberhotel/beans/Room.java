@@ -10,6 +10,7 @@ import humberhotel.exception.HotelException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,7 +23,11 @@ public class Room {
         QUERY_CREATE = 
             "INSERT INTO hotelrooms (roomnumber, type) VALUES (?, ?)",
         QUERY_DELETE =
-            "DELETE FROM hotelrooms WHERE roomnumber = ?";
+            "DELETE FROM hotelrooms WHERE roomnumber = ?",
+        QUERY_GET =
+            "SELECT * FROM hotelrooms WHERE roomnumber = ?",
+        QUERY_GET_ALL =
+            "SELECT * FROM hotelrooms";
     
     private int
             roomNumber;
@@ -70,5 +75,48 @@ public class Room {
             Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
+    }
+    
+    public static final Room get(int roomNumber) throws SQLException, HotelException {
+        Room room = new Room();
+        
+        try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(QUERY_GET)) {
+            stmt.setInt(1, roomNumber);
+            ResultSet rs = stmt.executeQuery();
+            
+            if(rs.next() == false)
+                throw new HotelException("There is no room with this number");
+            
+            room.setRoomNumber(rs.getInt(1));
+            room.setType(rs.getString(2));
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }
+        
+        return room;
+    }
+    
+    public static final ArrayList<Room> getAll() throws SQLException {
+        ArrayList<Room> rooms = new ArrayList<>();
+        
+        try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(QUERY_GET_ALL)) {
+            ResultSet rs = stmt.executeQuery();
+            
+            Room room;
+            
+            while(rs.next()) {
+                room = new Room();
+                room.setRoomNumber(rs.getInt(1));
+                room.setType(rs.getString(2));
+                rooms.add(room);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }
+        
+        return rooms;
     }
 }
