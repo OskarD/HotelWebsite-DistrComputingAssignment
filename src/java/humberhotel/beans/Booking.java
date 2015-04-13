@@ -88,7 +88,10 @@ public class Booking {
         this.roomNumber = roomNumber;
     }
 
-    public ArrayList<BookedDay> getDays() {
+    public ArrayList<BookedDay> getDays() throws SQLException {
+        if(id > 0 && days.isEmpty())
+            days = BookedDay.get(id);
+        
         return days;
     }
 

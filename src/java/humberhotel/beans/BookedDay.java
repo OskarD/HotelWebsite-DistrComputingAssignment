@@ -8,7 +8,9 @@ package humberhotel.beans;
 import humberhotel.db.DBConnection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,7 +21,9 @@ import java.util.logging.Logger;
 public class BookedDay {
     private static final String 
         QUERY_CREATE = 
-            "INSERT INTO HOTELBOOKEDDAYS (bookingid, bdate) VALUES (?, ?)";
+            "INSERT INTO HOTELBOOKEDDAYS (bookingid, bdate) VALUES (?, ?)",
+        QUERY_GET =
+            "SELECT * FROM hotelbookeddays WHERE bookingid = ?";
     
     private int
             id,
@@ -66,5 +70,28 @@ public class BookedDay {
             Logger.getLogger(BookedDay.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
+    }
+    
+    public ArrayList<BookedDay> get(int bookingId) throws SQLException {
+        ArrayList<BookedDay> days = new ArrayList<>();
+        
+        try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(QUERY_GET)) {
+            ResultSet rs = stmt.executeQuery();
+            
+            BookedDay day;
+            
+            while(rs.next()) {
+                day = new BookedDay();
+                day.setId(rs.getInt(1));
+                day.setBookingId(rs.getInt(2));
+                day.setBDate(rs.getDate(3));
+                days.add(day);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }
+        
+        return days;
     }
 }
