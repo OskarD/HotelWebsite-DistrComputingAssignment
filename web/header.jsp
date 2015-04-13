@@ -18,7 +18,7 @@
 <div id="top">
     <img src="images/logo.jpg" id="logo" alt="Logo" />
 <ul id="navi">
-<li><a href="rooms.jsp">Book A Room</a></li>
+<li><a href="rooms.jsp">Rooms</a></li>
 <li><a href="map.jsp">Map</a></li>
 <li><a href="photos.jsp">Photos</a></li>
 <li><a href="contact.jsp">Contact Us</a></li>

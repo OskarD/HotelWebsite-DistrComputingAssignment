@@ -38,7 +38,9 @@ public class RoomsServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             request.getRequestDispatcher("/header.jsp").include(request, response);
             out.println("<div id='roomswrapper'><form method='post' name='roomsform'>");
-            out.println("<h2>Book A Room</h2>");
+            out.println("<h2>Rooms</h2>");
+            
+            if()
 
             if (session.getAttribute("user") == null) {
                 out.println("<p><a href='login.jsp'>Login To Book A Room..</a></p>");

@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 public class Room {
     private static final String 
         QUERY_CREATE = 
-            "INSERT INTO hotelrooms (roomnumber, type) VALUES (?, ?)",
+            "INSERT INTO hotelrooms (roomnumber, type, price) VALUES (?, ?, ?)",
         QUERY_DELETE =
             "DELETE FROM hotelrooms WHERE roomnumber = ?",
         QUERY_GET =
@@ -34,6 +34,9 @@ public class Room {
     
     private String
             type;
+    
+    private double
+            price;
     
     public Room() {
     
@@ -54,11 +57,20 @@ public class Room {
     public void setType(String type) {
         this.type = type;
     }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
     
-    public static final void create(int roomNumber, String type) throws SQLException {
+    public static final void create(int roomNumber, String type, double price) throws SQLException {
         try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(QUERY_CREATE)) {
             stmt.setInt(1, roomNumber);
             stmt.setString(2, type);
+            stmt.setDouble(3, price);
             
             stmt.executeUpdate();
         } catch (SQLException ex) {
@@ -89,6 +101,7 @@ public class Room {
             
             room.setRoomNumber(rs.getInt(1));
             room.setType(rs.getString(2));
+            room.setPrice(rs.getDouble(3));
 
         } catch (SQLException ex) {
             Logger.getLogger(Room.class.getName()).log(Level.SEVERE, null, ex);
@@ -110,6 +123,7 @@ public class Room {
                 room = new Room();
                 room.setRoomNumber(rs.getInt(1));
                 room.setType(rs.getString(2));
+                room.setPrice(rs.getDouble(3));
                 rooms.add(room);
             }
         } catch (SQLException ex) {
