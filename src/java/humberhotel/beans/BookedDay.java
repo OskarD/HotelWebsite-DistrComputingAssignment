@@ -72,7 +72,7 @@ public class BookedDay {
         }
     }
     
-    public ArrayList<BookedDay> get(int bookingId) throws SQLException {
+    public static ArrayList<BookedDay> get(int bookingId) throws SQLException {
         ArrayList<BookedDay> days = new ArrayList<>();
         
         try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(QUERY_GET)) {
