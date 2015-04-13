@@ -8,6 +8,7 @@ package humberhotel.servlets;
 import humberhotel.beans.Booking;
 import humberhotel.beans.User;
 import humberhotel.db.DBConnection;
+import humberhotel.exception.HotelException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -15,6 +16,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -49,8 +51,14 @@ public class MyBookingServlet extends HttpServlet {
             out.println("<head>List of bookings</head>");
             try {
                 String value = request.getParameter("cancel");
-                    Booking.delete(value);
+                try {
+                    Booking.delete(Integer.parseInt(value));
+                } catch (HotelException ex) {
+                    out.println("Could not remove booking from the list. " + ex.getMessage());
+                }
                 
+                    
+                    
                 Statement stmt = connection.createStatement();
                 HttpSession session = request.getSession();
                 User user = (User)session.getAttribute("user");
@@ -68,14 +76,19 @@ public class MyBookingServlet extends HttpServlet {
                     int number = rs.getInt("a.roomnumber");
                     Date date = rs.getDate("b.bdate");
                     out.println("<tr><td>" + number + "</td><td>" + date + "</td><td>"
-                            + "<form action='myBooking.jsp' method='post'" + "'><button type='submit' name='cancel' value='" + id + "'>Cancel</button></form>"
+                            + "<form action='myBooking.jsp' method='get'" + "'><button type='submit' name='cancel' value='" + id + "'>Cancel</button></form>"
                             + "</td></tr>");
                 } 
                 out.println("</table>");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            out.println("</div>");
+            out.println("<form action='myBooking.jsp' method='get'>");
+            out.println("<style> #services {resize: none;} </style>");
+            out.println("<label>Add special service instructions</label><br/>");
+            out.println("<textarea rows='5' cols='50' id='services'></textarea><br/>");
+            out.println("button type='submit' name='submit' value='submit'>Submit</button>");
+            out.println("</form></div>");
             request.getRequestDispatcher("/footer.jsp").include(request, response);
         }
     }
