@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Oskar
+ * @author Serio
  */
 public class ReportServlet extends HttpServlet {
 
@@ -31,16 +31,15 @@ public class ReportServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ReportServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ReportServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            
+            request.getRequestDispatcher("/header.jsp").include(request, response);
+            out.println("<div id='reportswrapper'>");
+            out.println("<h2>Room Reports</h2>");
+            out.println("<h3>Sort By:</h3>");
+            out.println("<p><a href='reports.jsp?report=newestdate'>Latest Bookings</a> - <a href='reports.jsp?report=numerical'>Numerical Order</a> - <a href='reports.jsp?report=price'>Price</a>");
+            out.println("</div>");
+            request.getRequestDispatcher("/footer.jsp").include(request, response);                        
+            
         }
     }
 
