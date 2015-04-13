@@ -9,10 +9,11 @@ import humberhotel.db.DBConnection;
 import humberhotel.exception.HotelException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -93,6 +94,24 @@ public class Booking {
             days = BookedDay.get(id);
         
         return days;
+    }
+    
+    public void setDays(Date startDate, Date endDate) {
+        ArrayList<BookedDay> days = new ArrayList<>();
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(startDate);
+
+        while (calendar.getTime().before(endDate))
+        {
+            Date result = new Date(calendar.getTime().getTime());
+            BookedDay day = new BookedDay();
+            day.setBookingId(id);
+            day.setBDate(result);
+            days.add(day);
+            calendar.add(Calendar.DATE, 1);
+        }
+        
+        this.setDays(days);
     }
 
     public void setDays(ArrayList<BookedDay> days) {
@@ -204,5 +223,15 @@ public class Booking {
             Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
+    }
+    
+    public String toHTML() throws SQLException {
+        String output = "Room number: " + getRoomNumber() + "<br />Dates:<ul>";
+        
+        for(BookedDay day : getDays()) {
+            output += "<li>" + day.getBDate() + "</li>";
+        }
+        
+        return output + "</ul>";
     }
 }
