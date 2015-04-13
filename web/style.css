@@ -98,3 +98,11 @@ body {margin:0; font-family:Arial, Helvetica, sans-serif;}
 #profilewrapper input {font-size: 20px; margin-bottom: 10px;}
 #profilewrapper input[type=submit] {padding: 5px 100px;}
 #profilewrapper p:last-child {text-align: center;}
+
+/* report container */
+#reportswrapper {width:60%; margin:10px auto; overflow: hidden;  border: 1px solid #000033; border-radius: 4px;}
+#reportswrapper h2 {background: #000033; color: #deb406; margin:0 0 5px 0; padding: 5px 0; border-bottom: 1px solid #000033; text-align: center;}
+#reportswrapper h3 {margin:0; text-align: center;}
+#reportswrapper p {text-align: center;}
+#reportswrapper a {text-decoration: none; font-weight: bold; color: #000088;}
+#reportswrapper a:hover {color: #deb406; text-decoration: underline;}

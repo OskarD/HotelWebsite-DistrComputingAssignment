@@ -20,6 +20,10 @@
         <servlet-name>ViewUsersServlet</servlet-name>
         <servlet-class>humberhotel.servlets.ViewUsersServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ReportServlet</servlet-name>
+        <servlet-class>humberhotel.servlets.ReportServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -44,6 +48,11 @@
         <servlet-name>ViewUsersServlet</servlet-name>
         <url-pattern>/ViewUsersServlet</url-pattern>
         <url-pattern>/viewusers.jsp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReportServlet</servlet-name>
+        <url-pattern>/ReportServlet</url-pattern>
+        <url-pattern>/reports.jsp</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

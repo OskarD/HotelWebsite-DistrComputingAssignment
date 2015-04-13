@@ -10,6 +10,7 @@ import humberhotel.exception.HotelException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,15 +21,22 @@ import java.util.logging.Logger;
 public class Room {
     private static final String 
         QUERY_CREATE = 
-            "INSERT INTO hotelrooms (roomnumber, type) VALUES (?, ?)",
+            "INSERT INTO hotelrooms (roomnumber, type, price) VALUES (?, ?, ?)",
         QUERY_DELETE =
-            "DELETE FROM hotelrooms WHERE roomnumber = ?";
+            "DELETE FROM hotelrooms WHERE roomnumber = ?",
+        QUERY_GET =
+            "SELECT * FROM hotelrooms WHERE roomnumber = ?",
+        QUERY_GET_ALL =
+            "SELECT * FROM hotelrooms";
     
     private int
             roomNumber;
     
     private String
             type;
+    
+    private double
+            price;
     
     public Room() {
     
@@ -49,15 +57,24 @@ public class Room {
     public void setType(String type) {
         this.type = type;
     }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
     
-    public static final void create(int roomNumber, String type) throws SQLException {
+    public static final void create(int roomNumber, String type, double price) throws SQLException {
         try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(QUERY_CREATE)) {
             stmt.setInt(1, roomNumber);
             stmt.setString(2, type);
+            stmt.setDouble(3, price);
             
             stmt.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Room.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
     }
@@ -67,8 +84,53 @@ public class Room {
             stmt.setInt(1, roomNumber);
             stmt.executeQuery();
         } catch (SQLException ex) {
-            Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Room.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
+    }
+    
+    public static final Room get(int roomNumber) throws SQLException, HotelException {
+        Room room = new Room();
+        
+        try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(QUERY_GET)) {
+            stmt.setInt(1, roomNumber);
+            ResultSet rs = stmt.executeQuery();
+            
+            if(rs.next() == false)
+                throw new HotelException("There is no room with this number");
+            
+            room.setRoomNumber(rs.getInt(1));
+            room.setType(rs.getString(2));
+            room.setPrice(rs.getDouble(3));
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Room.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }
+        
+        return room;
+    }
+    
+    public static final ArrayList<Room> getAll() throws SQLException {
+        ArrayList<Room> rooms = new ArrayList<>();
+        
+        try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(QUERY_GET_ALL)) {
+            ResultSet rs = stmt.executeQuery();
+            
+            Room room;
+            
+            while(rs.next()) {
+                room = new Room();
+                room.setRoomNumber(rs.getInt(1));
+                room.setType(rs.getString(2));
+                room.setPrice(rs.getDouble(3));
+                rooms.add(room);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Room.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }
+        
+        return rooms;
     }
 }
